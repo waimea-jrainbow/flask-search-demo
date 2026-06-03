@@ -7,7 +7,37 @@
 
 {% block content %}
 
-    <h2>List of Creatures</h2>
+    {% if search_term %}
+        <h2>List of Creatures matching: '{{ search_term }}'</h2>
+    {% else %}
+        <h2>List of Creatures</h2>
+    {% endif %}
+
+    <section id="search">
+        <form action="/search" method="get">
+
+            <label>
+                Search for
+                <input type="text" name="q" value="{{ search_term }}">
+            </label>
+    
+            <button>Search</button>
+            <a class="button" href="/creatures">Clear</a>
+
+            <label>Filter by species:</label>
+
+            <select name="species" id="species">
+                <option value="all">All</option>
+                {% for species in species_list %}
+                <option value="{{ species }}"                        {# fixed: was species_search_term #}
+                    {% if species == species_term %}selected{% endif %}>  {# added: preserve selection #}
+                    {{ species }}
+                </option>
+                {% endfor %}
+            </select>
+    
+        </form>
+    </section>
 
     <section id="creatures">
 
